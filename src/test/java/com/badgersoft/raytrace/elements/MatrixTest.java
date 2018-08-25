@@ -1,5 +1,6 @@
 package com.badgersoft.raytrace.elements;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -72,14 +73,14 @@ public class MatrixTest {
     {
         double[][] data1 = new double[][] {{1,5,0},{-3,2,7},{0,6,-3}};
         Matrix m1 = new Matrix(data1);
-        Matrix m2 = m1.submatrix(m1, 0, 2);
+        Matrix m2 = Matrix.submatrix(m1, 0, 2);
         Matrix m3 = new Matrix(new double[][] {{-3,2},{0,6}});
 
         compareEquals(m2, m3);
 
         data1 = new double[][] {{-6,1,1,6},{-8,5,8,6},{-1,0,8,2},{-7,1,-1,1}};
         m1 = new Matrix(data1);
-        m2 = m1.submatrix(m1, 2, 1);
+        m2 = Matrix.submatrix(m1, 2, 1);
         m3 = new Matrix(new double[][] {{-6,1,6},{-8,8,6},{-7,-1,1}});
 
         compareEquals(m2, m3);
@@ -90,7 +91,7 @@ public class MatrixTest {
     {
         double[][] data1 = new double[][] {{1,2},{3,4}};
         Matrix m1 = new Matrix(data1);
-        double d = m1.determinant(m1);
+        double d = Matrix.determinant(m1);
         assertTrue(Math.abs(d - -2.0) < 0.000001);
     }
 
@@ -184,6 +185,70 @@ public class MatrixTest {
         final double determinant = Matrix.determinant(m1);
 
         assertTrue(Math.abs(0.0 - determinant) < 0.000001);
+    }
+
+    @Test
+    public void invertTest() {
+        double[][] data1 = new double[][] {{-5, 2, 6,-8},{ 1,-5, 1, 8},{ 7, 7,-6,-7},{ 1,-3, 7, 4}};
+        double[][] data2 = new double[][] {{6,4,4,4},{5,5,7,6},{ 4,-9, 3,-7},{ 9, 1, 7,-6}};
+        Matrix a = new Matrix(data1);
+        Matrix b = new Matrix(data2);
+        Matrix c = a.multiply(b);
+        compareEquals(a, c.multiply(Matrix.invert(b)));
+
+    }
+
+    @Test
+    public void invertIdentity() {
+        double[][] data1 = new double[][] {{-5, 2, 6,-8},{ 1,-5, 1, 8},{ 7, 7,-6,-7},{ 1,-3, 7, 4}};
+        Matrix a = new Matrix(data1);
+        Matrix identity = a.identity();
+        Matrix inverse = Matrix.invert(identity);
+        compareEquals(identity, inverse);
+    }
+
+    @Test
+    public void multiplyByInverseToGetIdentity()
+    {
+        double[][] data1 = new double[][] {{-5, 2, 6,-8},{ 1,-5, 1, 8},{ 7, 7,-6,-7},{ 1,-3, 7, 4}};
+        Matrix a = new Matrix(data1);
+        Matrix value = a.multiply(Matrix.invert(a));
+        compareEquals(a.identity(), value);
+    }
+
+    @Test
+    public void inverseTransposeAndViceVersaAreTheSame()
+    {
+        double[][] data1 = new double[][] {{-5, 2, 6,-8},{ 1,-5, 1, 8},{ 7, 7,-6,-7},{ 1,-3, 7, 4}};
+        Matrix a = new Matrix(data1);
+        Matrix transposed  = a.transpose();
+        Matrix inverseTransposed = Matrix.invert(transposed);
+        Matrix inverse = Matrix.invert(a);
+        Matrix transposeInverted = inverse.transpose();
+        compareEquals(inverseTransposed, transposeInverted);
+    }
+
+    @Test
+    public void multiplyIdentityTuple() {
+        double[][] data1 = new double[][] {{-5, 2, 6,-8},{ 1,-5, 1, 8},{ 7, 7,-6,-7},{ 1,-3, 7, 4}};
+        Matrix a = new Matrix(data1);
+        Tuple t1 = new Tuple(1.0, 2.0, 3.0, 4.0);
+        Tuple t2 = a.identity().multiply(t1);
+        assertTrue(t1.equals(t2));
+    }
+
+
+    @Test
+    @Ignore
+    public void invertLarge() {
+        double[][] data1 = new double[10][10];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                data1[i][j] = i * 10 + j;
+            }
+        }
+        Matrix m1 = new Matrix(data1);
+        Matrix.invert(m1);
     }
 
 

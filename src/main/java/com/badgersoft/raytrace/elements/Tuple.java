@@ -23,6 +23,28 @@ public class Tuple implements Serializable {
         this.w = w;
     }
 
+    public Tuple(double[] values) {
+        this.x = new BigDecimal(values[0]);
+        this.y = new BigDecimal(values[1]);
+        this.z = new BigDecimal(values[2]);
+        this.w = new BigDecimal(values[3]);
+    }
+
+    public Tuple(double x, double y, double z, double w) {
+
+        this.x = new BigDecimal(x);
+        this.y = new BigDecimal(y);
+        this.z = new BigDecimal(z);
+        this.w = new BigDecimal(w);
+    }
+
+    public Tuple(double[][] data) {
+        this.x = new BigDecimal(data[0][0]);
+        this.y = new BigDecimal(data[1][0]);
+        this.z = new BigDecimal(data[2][0]);
+        this.w = new BigDecimal(data[3][0]);
+    }
+
     public boolean equals(Tuple other) {
         boolean result = w.compareTo(other.w) == 0;
         result = result && x.compareTo(other.x) == 0;
@@ -112,6 +134,10 @@ public class Tuple implements Serializable {
                 z.divide(divisor,4 , RoundingMode.HALF_EVEN),
                 w.divide(divisor,4 , RoundingMode.HALF_EVEN)
         );
+    }
+
+    public double[] getDoubleValues() {
+        return new double[] {getX().doubleValue(), getY().doubleValue(), getZ().doubleValue(),getW().doubleValue()};
     }
 
 }

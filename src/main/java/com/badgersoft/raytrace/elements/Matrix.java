@@ -12,15 +12,15 @@ public class Matrix extends Array2DRowRealMatrix {
         super(values);
     }
 
-    public double[][] multiply(double[][] multiplicand) {
-        Matrix other = new Matrix(multiplicand);
-        final Array2DRowRealMatrix matrix = multiply(other);
-        return matrix.getData();
-    }
-
     public Matrix multiply(Matrix other) {
         final Array2DRowRealMatrix multiply = super.multiply(other);
         return new Matrix(multiply.getData());
+    }
+
+    public Tuple multiply(Tuple tuple) {
+        final Array2DRowRealMatrix multiply = super.multiply(new Array2DRowRealMatrix(tuple.getDoubleValues()));
+        return new Tuple(multiply.getData());
+
     }
 
     public Matrix identity() {
@@ -44,7 +44,7 @@ public class Matrix extends Array2DRowRealMatrix {
             for(int i = 0; i < m1.getColumnDimension(); i++) {
                 double cell = m1.getEntry(0, i);
                 double cofactor = cofactor(m1, 0, i);
-                value = value + (cell * cofactor);
+                value += (cell * cofactor);
             }
         }
 
@@ -82,7 +82,37 @@ public class Matrix extends Array2DRowRealMatrix {
 
     public static double cofactor(Matrix matrix, int row, int col) {
         double minor = minor(matrix, row, col);
-        minor = minor * ((((row + col) % 2) == 1) ? -1.0 : 1.0);
+        minor *= ((((row + col) % 2) == 1) ? -1.0 : 1.0);
         return minor;
+    }
+
+    public static Matrix invert(Matrix m1) {
+
+        Matrix cofactorMatrix = cofactorMatrix(m1);
+        Matrix transposedMatrix = cofactorMatrix.transpose();
+        double determinant = determinant(m1);
+        Matrix inverted = divide(transposedMatrix, determinant);
+
+        return inverted;
+    }
+
+    private static Matrix divide(Matrix m1, double value) {
+        double[][] m2 = new double[m1.getRowDimension()][m1.getColumnDimension()];
+        for (int i = 0; i < m1.getRowDimension(); i++) {
+            for (int j = 0; j < m1.getColumnDimension(); j++) {
+                m2[i][j] = m1.getEntry(i, j) / value;
+            }
+        }
+        return new Matrix(m2);
+    }
+
+    private static Matrix cofactorMatrix(Matrix m1) {
+        double[][] cofactorMatrix = new double[m1.getRowDimension()][m1.getColumnDimension()];
+        for (int i = 0; i < m1.getRowDimension(); i++) {
+            for (int j = 0; j < m1.getColumnDimension(); j++) {
+                cofactorMatrix[i][j] = cofactor(m1, i, j);
+            }
+        }
+        return new Matrix(cofactorMatrix);
     }
 }
