@@ -164,6 +164,28 @@ public class MatrixTest {
 
     }
 
+    @Test
+    public void invertible() {
+        double[][] data1 = new double[][] {{6,4,4,4},{5,5,7,6},{ 4,-9, 3,-7},{ 9, 1, 7,-6}};
+
+        Matrix m1 = new Matrix(data1);
+
+        final double determinant = Matrix.determinant(m1);
+
+        assertTrue(Math.abs(-2120 - determinant) < 0.000001);
+    }
+
+    @Test
+    public void nonInvertible() {
+        double[][] data1 = new double[][] {{-4, 2,-2,-3},{9,6,2,6},{ 0,-5, 1,-5},{0,0,0,0}};
+
+        Matrix m1 = new Matrix(data1);
+
+        final double determinant = Matrix.determinant(m1);
+
+        assertTrue(Math.abs(0.0 - determinant) < 0.000001);
+    }
+
 
     private void compareEquals(Matrix expected, Matrix test) {
         assertEquals(expected.getData()[0].length, test.getData()[0].length);
