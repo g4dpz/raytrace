@@ -237,6 +237,17 @@ public class MatrixTest {
         assertTrue(t1.equals(t2));
     }
 
+    @Test
+    public void multiplyByTupleWithChangedIdentity() {
+        double[][] data1 = new double[][] {{-5, 2, 6,-8},{ 1,-5, 1, 8},{ 7, 7,-6,-7},{ 1,-3, 7, 4}};
+        Matrix a = new Matrix(data1);
+        Tuple t1 = new Tuple(1.0, 2.0, 3.0, 4.0);
+        final Matrix identity = a.identity();
+        identity.setEntry(0,0,0.0);
+        Tuple t2 = identity.multiply(t1);
+        assertTrue(new Tuple(0,2,3,4).equals(t2));
+    }
+
 
     @Test
     @Ignore
