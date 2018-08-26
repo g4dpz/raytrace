@@ -298,6 +298,38 @@ public class MatrixTest {
         assertTrue(v1.equals(v2));
     }
 
+    @Test
+    public void scalePoint() {
+        Point p1 = new Point(-4, 6, 8);
+        Point p2 = new Point(-8, 18, 32);
+        Matrix scale = Matrix.scale(2, 3, 4);
+        final Tuple tuple = scale.multiply(p1);
+        final Point p3 = new Point(tuple);
+        assertTrue(p2.equals(p3));
+    }
+
+    @Test
+    public void scaleVector() {
+        Vector v1 = new Vector(-4, 6, 8);
+        Vector v2 = new Vector(-8, 18, 32);
+        Matrix scale = Matrix.scale(2, 3, 4);
+        final Tuple tuple = scale.multiply(v1);
+        final Vector v3 = new Vector(tuple);
+        assertTrue(v2.equals(v3));
+
+    }
+
+    @Test
+    public void multiplyByInverseOfScalingMatrix() {
+        Vector v1 = new Vector(-4, 6, 8);
+        Vector v2 = new Vector(-2, 2, 2);
+        Matrix scale = Matrix.scale(2, 3, 4);
+        final Matrix invert = Matrix.invert(scale);
+        final Tuple tuple = invert.multiply(v1);
+        final Vector v3 = new Vector(tuple);
+        assertTrue(v2.equals(v3));
+    }
+
 
     private void compareEquals(Matrix expected, Matrix test) {
         assertEquals(expected.getData()[0].length, test.getData()[0].length);

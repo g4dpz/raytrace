@@ -17,6 +17,11 @@ public class Matrix extends Array2DRowRealMatrix {
         return transform;
     }
 
+    public static Matrix scale(int x, int y, int z) {
+        Matrix scale = new Matrix(new double[][] {{x,0,0,0},{0,y,0,0},{0,0,z,0},{0,0,0,1}});
+        return scale;
+    }
+
     public Matrix multiply(Matrix other) {
         final Array2DRowRealMatrix multiply = super.multiply(other);
         return new Matrix(multiply.getData());
