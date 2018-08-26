@@ -81,4 +81,14 @@ public class PointTest {
         assertTrue(p2.getZ().compareTo(new BigDecimal("1.667")) == 0);
         assertTrue(p2.getW().compareTo(new BigDecimal("1.0")) == 0);
     }
+//
+//    @Test
+//    public void transform() {
+//
+//        Point p1 = new Point(-3.0, 4.0, 5.0);
+//        Point p2 = new Point(-8.0, 7.0, 3.0);
+//        Point p3 = (Point) p1.transform(5, -3, 2);
+//
+//        assertTrue(p2.equals(p3));
+//    }
 }

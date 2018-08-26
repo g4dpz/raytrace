@@ -139,5 +139,4 @@ public class Tuple implements Serializable {
     public double[] getDoubleValues() {
         return new double[] {getX().doubleValue(), getY().doubleValue(), getZ().doubleValue(),getW().doubleValue()};
     }
-
 }

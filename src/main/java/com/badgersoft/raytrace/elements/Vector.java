@@ -9,6 +9,14 @@ public class Vector extends Tuple {
         super(x, y, z, new BigDecimal("0.0"));
     }
 
+    public Vector(double x, double y, double z) {
+        super(new BigDecimal(x), new BigDecimal(y), new BigDecimal(z), new BigDecimal("0.0"));
+    }
+
+    public Vector(Tuple tuple) {
+        super(tuple.getX(), tuple.getY(), tuple.getZ(), new BigDecimal("0.0"));
+    }
+
     public Vector add(Vector other) {
         final Tuple tuple = super.add(other);
         return new Vector(tuple.getX(), tuple.getY(), tuple.getZ());

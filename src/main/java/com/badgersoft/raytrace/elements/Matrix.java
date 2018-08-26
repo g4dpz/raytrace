@@ -12,6 +12,11 @@ public class Matrix extends Array2DRowRealMatrix {
         super(values);
     }
 
+    public static Matrix transform(double x, double y, double z) {
+        Matrix transform = new Matrix(new double[][] {{1,0,0,x},{0,1,0,y},{0,0,1,z},{0,0,0,1}});
+        return transform;
+    }
+
     public Matrix multiply(Matrix other) {
         final Array2DRowRealMatrix multiply = super.multiply(other);
         return new Matrix(multiply.getData());
