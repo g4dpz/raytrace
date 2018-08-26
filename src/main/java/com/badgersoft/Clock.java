@@ -56,10 +56,6 @@ public class Clock {
             }
         }
 
-        Tuple tuple = new Tuple();
-        tuple.setX(x);
-        tuple.setY(y);
-
-        return tuple;
+        return new Tuple(x,y,0,0);
     }
 }
