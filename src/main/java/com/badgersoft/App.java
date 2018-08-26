@@ -4,8 +4,6 @@ import com.badgersoft.raytrace.elements.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,26 +14,26 @@ import java.util.List;
 public class App 
 {
     public static void main( String[] args ) throws IOException {
-        Point point = new Point(new BigDecimal("0.00"),
-                new BigDecimal("1.00"),
-                new BigDecimal("0.00"));
+        Point point = new Point(0.00,
+                1.00,
+                0.00);
 
         Vector vector = new Vector(
-                new BigDecimal("1.00"),
-                new BigDecimal("1.80"),
-                new BigDecimal("0.00"));
+                1.00,
+                1.80,
+                0.00);
 
-        Projectile projectile = new Projectile(point, vector.normalise().multiply(new BigDecimal("11.25")));
+        Projectile projectile = new Projectile(point, vector.normalise().multiply(11.25));
 
         Vector gravity = new Vector(
-                new BigDecimal("0.00"),
-                new BigDecimal("-0.10"),
-                new BigDecimal("0.00"));
+                0.00,
+                -0.10,
+                0.00);
 
         Vector wind = new Vector(
-                new BigDecimal("-0.01"),
-                new BigDecimal("0.0"),
-                new BigDecimal("0.0"));
+                -0.01,
+                0.0,
+                0.0);
 
         World world = new World(gravity, wind);
 
@@ -43,9 +41,9 @@ public class App
         List<Point> points = new ArrayList<>();
 
         Canvas canvas = new Canvas(910, 550);
-        Colour colour = new Colour(new BigDecimal(1.0), new BigDecimal(1.0), new BigDecimal(1.0));
+        Colour colour = new Colour(1.0, 1.0, 1.0);
 
-        while (projectile.getPoint().getY().compareTo(new BigDecimal("0.0")) > 0) {
+        while (projectile.getPoint().getY() > 0) {
             points.add(projectile.getPoint());
             projectile = Projectile.tick(world, projectile);
         }
@@ -53,8 +51,8 @@ public class App
         Tuple minMax = getMax(points);
 
         for (Point point1 : points) {
-            int x = point1.getX().divide(minMax.getX(),4 , RoundingMode.HALF_EVEN).multiply(new BigDecimal(900)).toBigInteger().intValue();
-            int y = point1.getY().divide(minMax.getY(),4 , RoundingMode.HALF_EVEN).multiply(new BigDecimal(500)).toBigInteger().intValue();
+            int x = (int) (point1.getX() / minMax.getX());
+            int y = (int) (point1.getY() / minMax.getY());
             canvas.writePixel(colour, x, (500 - y));
         }
 
@@ -67,14 +65,14 @@ public class App
 
     private static Tuple getMax(List<Point> points) {
 
-        BigDecimal x = new BigDecimal("0.0");
-        BigDecimal y = new BigDecimal("0.0");
+        double x = 0.0;
+        double y = 0.0;
 
         for (Point point : points) {
-            if (point.getX().compareTo(x) > 0) {
+            if (point.getX() > x) {
                 x = point.getX();
             }
-            if (point.getY().compareTo(y) > 0) {
+            if (point.getY() > y) {
                 y = point.getY();
             }
         }

@@ -264,7 +264,7 @@ public class MatrixTest {
 
     @Test
     public void createTransform() {
-        Matrix transformation = Matrix.transform(1, 2, 3);
+        Matrix transformation = Matrix.translation(1, 2, 3);
         Matrix test = new Matrix(new double[][] {{1,0,0,1}, {0,1,0,2},{0,0,1,3}, {0,0,0,1}});
         compareEquals(test, transformation);
     }
@@ -273,7 +273,7 @@ public class MatrixTest {
     public void transformPoint() {
         Point p1 = new Point(-3, 4, 5);
         Point p2 = new Point(2, 1, 7);
-        Matrix transformation = Matrix.transform(5, -3, 2);
+        Matrix transformation = Matrix.translation(5, -3, 2);
         final Tuple tuple = transformation.multiply(p1);
         final Point p3 = new Point(tuple);
         assertTrue(p2.equals(p3));
@@ -283,7 +283,7 @@ public class MatrixTest {
     public void inversePoint() {
         Point p1 = new Point(-3, 4, 5);
         Point p2 = new Point(-8, 7, 3);
-        Matrix transformation = Matrix.transform(5, -3, 2);
+        Matrix transformation = Matrix.translation(5, -3, 2);
         final Matrix invert = Matrix.invert(transformation);
         final Tuple tuple = invert.multiply(p1);
         final Point p3 = new Point(tuple);
@@ -293,7 +293,7 @@ public class MatrixTest {
     @Test
     public void transformDoesNotChangeVector() {
         Vector v1 = new Vector(-3, 4, 5);
-        Matrix transformation = Matrix.transform(5, -3, 2);
+        Matrix transformation = Matrix.translation(5, -3, 2);
         Vector v2 = new Vector(transformation.multiply(v1));
         assertTrue(v1.equals(v2));
     }

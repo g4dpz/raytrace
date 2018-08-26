@@ -1,19 +1,14 @@
 package com.badgersoft.raytrace.elements;
 
-import java.math.BigDecimal;
 
 public class Point extends Tuple {
 
-    public Point(BigDecimal x, BigDecimal y, BigDecimal z) {
-        super(x, y, z, new BigDecimal("1.0"));
-    }
-
     public Point(double x, double y, double z) {
-        super(new BigDecimal(x), new BigDecimal(y), new BigDecimal(z), new BigDecimal("1.0"));
+        super(x, y, z, 1.0);
     }
 
     public Point(Tuple tuple) {
-        super(tuple.getX(), tuple.getY(), tuple.getZ(), new BigDecimal("1.0"));
+        super(tuple.getX(), tuple.getY(), tuple.getZ(), 1.0);
     }
 
     public Vector add(Point other) {
@@ -34,5 +29,12 @@ public class Point extends Tuple {
     public Point subtract(Vector other) {
         final Tuple tuple = super.subtract(other);
         return new Point(tuple.getX(), tuple.getY(), tuple.getZ());
+    }
+
+    public boolean equals(Point other) {
+        boolean equals = compare(getX(), other.getX());
+        equals = equals && compare(getY(), other.getY());
+        equals = equals && compare(getZ(), other.getZ());
+        return equals;
     }
 }

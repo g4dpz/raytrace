@@ -1,8 +1,5 @@
 package com.badgersoft.raytrace.elements;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 public class Canvas {
 
     private long width;
@@ -16,7 +13,7 @@ public class Canvas {
         pixels = new Colour[height][width];
         for (int line = 0 ; line < height ; line++) {
             for (int pos = 0 ; pos < width ; pos++) {
-                pixels[line][pos] = new Colour(new BigDecimal("0.0"), new BigDecimal("0.0"), new BigDecimal("0.0"));
+                pixels[line][pos] = new Colour(0.0, 0.0, 0.0);
             }
         }
     }
@@ -87,8 +84,10 @@ public class Canvas {
         return content.toString();
     }
 
-    private String scaleColour(BigDecimal colour) {
-        return colour.divide(new BigDecimal("1.0")).multiply(new BigDecimal("255")).setScale(0, RoundingMode.FLOOR).toString();
+    private String scaleColour(double colour) {
+        Double scaledColour = colour / 1.0;
+        scaledColour *= 255;
+        return Integer.toString(scaledColour.intValue());
     }
 
 

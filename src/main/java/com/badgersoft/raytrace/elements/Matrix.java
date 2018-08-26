@@ -12,7 +12,7 @@ public class Matrix extends Array2DRowRealMatrix {
         super(values);
     }
 
-    public static Matrix transform(double x, double y, double z) {
+    public static Matrix translation(double x, double y, double z) {
         Matrix transform = new Matrix(new double[][] {{1,0,0,x},{0,1,0,y},{0,0,1,z},{0,0,0,1}});
         return transform;
     }
@@ -20,6 +20,11 @@ public class Matrix extends Array2DRowRealMatrix {
     public static Matrix scale(int x, int y, int z) {
         Matrix scale = new Matrix(new double[][] {{x,0,0,0},{0,y,0,0},{0,0,z,0},{0,0,0,1}});
         return scale;
+    }
+
+    public static Matrix rotationX(double angle) {
+        Matrix rotation = new Matrix(new double[][] {{1,0,0,0},{0,Math.cos(angle),-Math.sin(angle),0},{0,Math.sin(angle),Math.cos(angle),0},{0,0,0,1}});
+        return rotation;
     }
 
     public Matrix multiply(Matrix other) {

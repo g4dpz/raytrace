@@ -1,87 +1,83 @@
 package com.badgersoft.raytrace.elements;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 public class Colour {
 
-    private BigDecimal red;
-    private BigDecimal green;
-    private BigDecimal blue;
+    private double red;
+    private double green;
+    private double blue;
 
     public Colour() {
     }
 
-    public Colour(BigDecimal red, BigDecimal green, BigDecimal blue) {
+    public Colour(double red, double green, double blue) {
         this.red = red;
         this.green = green;
         this.blue = blue;
     }
 
-    public BigDecimal getRed() {
+    public double getRed() {
         return red;
     }
 
-    public void setRed(BigDecimal red) {
+    public void setRed(double red) {
         this.red = red;
     }
 
-    public BigDecimal getGreen() {
+    public double getGreen() {
         return green;
     }
 
-    public void setGreen(BigDecimal green) {
+    public void setGreen(double green) {
         this.green = green;
     }
 
-    public BigDecimal getBlue() {
+    public double getBlue() {
         return blue;
     }
 
-    public void setBlue(BigDecimal blue) {
+    public void setBlue(double blue) {
         this.blue = blue;
     }
 
     public Colour add(Colour other) {
 
         return new Colour(
-                red.add(other.red),
-                green.add(other.green),
-                blue.add(other.blue)
-        );
+                red += other.red,
+                green += other.green,
+                blue += other.blue);
     }
 
     public Colour subtract(Colour other) {
 
         return new Colour(
-                red.subtract(other.red),
-                green.subtract(other.green),
-                blue.subtract(other.blue)
+                red -= other.red,
+                green -= other.green,
+                blue-= other.blue
         );
     }
 
-    public Colour multiply(BigDecimal multiplicand) {
+    public Colour multiply(double multiplicand) {
 
         return new Colour(
-                red.multiply(multiplicand).setScale(4, RoundingMode.HALF_EVEN),
-                green.multiply(multiplicand).setScale(4, RoundingMode.HALF_EVEN),
-                blue.multiply(multiplicand).setScale(4, RoundingMode.HALF_EVEN)
+                red *= multiplicand,
+                green *= multiplicand,
+                blue *= multiplicand
         );
     }
 
     public Colour multiply(Colour other) {
 
         return new Colour(
-                red.multiply(other.red).setScale(4, RoundingMode.HALF_EVEN),
-                green.multiply(other.green).setScale(4, RoundingMode.HALF_EVEN),
-                blue.multiply(other.blue).setScale(4, RoundingMode.HALF_EVEN)
+                red *= other.red,
+                green *= other.green,
+                blue *= other.blue
         );
     }
 
     public static Colour hadamardProduct(Colour c1, Colour c2) {
-        BigDecimal red = c1.red.multiply(c2.red);
-        BigDecimal green = c1.green.multiply(c2.green);
-        BigDecimal blue = c1.blue.multiply(c2.blue);
+        double red = c1.red *= c2.red;
+        double green = c1.green *= c2.green;
+        double blue = c1.blue *= c2.blue;
         return new Colour(red, green, blue);
     }
 }
