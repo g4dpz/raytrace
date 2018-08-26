@@ -51,9 +51,9 @@ public class App
         Tuple minMax = getMax(points);
 
         for (Point point1 : points) {
-            int x = (int) (point1.getX() / minMax.getX());
-            int y = (int) (point1.getY() / minMax.getY());
-            canvas.writePixel(colour, x, (500 - y));
+            int x = (int) ((point1.getX() / minMax.getX()) * minMax.getX());
+            int y = (int) ((point1.getY() / minMax.getY()) * minMax.getY());
+            canvas.writePixel(colour, x, (540 - y));
         }
 
         FileWriter fileWriter = new FileWriter(args[0]);

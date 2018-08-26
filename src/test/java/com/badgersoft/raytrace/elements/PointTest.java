@@ -82,6 +82,37 @@ public class PointTest {
         assertTrue(p2.equals(p3));
     }
 
+    @Test
+    public void transformationSequance() {
+        Point p1 = new Point(1, 0, 1);
+        Matrix a = Matrix.rotationX(Math.PI / 2);
+        Matrix b = Matrix.scale(5, 5, 5);
+        Matrix c = Matrix.translation(10, 5, 7);
+
+        // rotate
+        Point p2 = new Point(a.multiply(p1));
+        assertTrue(new Point(1, -1, 0).equals(p2));
+
+        // scale
+        Point p3 = new Point(b.multiply(p2));
+        assertTrue(new Point(5, -5, 0).equals(p3));
+
+        // translate
+        Point p4 = new Point(c.multiply(p3));
+        assertTrue(new Point(15, 0, 7).equals(p4));
+
+    }@Test
+    public void chainedSequence() {
+        Point p1 = new Point(1, 0, 1);
+        Matrix a = Matrix.rotationX(Math.PI / 2);
+        Matrix b = Matrix.scale(5, 5, 5);
+        Matrix c = Matrix.translation(10, 5, 7);
+
+        Point p2 = new Point(c.multiply(b.multiply(a.multiply(p1))));
+        assertTrue(new Point(15, 0, 7).equals(p2));
+
+    }
+
     private boolean compare(double a, double b) {
         return Math.abs(a - b) < 0.000001;
     }

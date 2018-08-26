@@ -46,6 +46,15 @@ public class Matrix extends Array2DRowRealMatrix {
         return rotation;
     }
 
+    public static Matrix shearing(double Xy, double Xz, double Yx, double Yz, double Zx, double Zy) {
+        Matrix shearing = new Matrix(new double[][] {
+                {1,Xy,Xz,0},
+                {Yx,1,Yz,0},
+                {Zx,Zy,1,0},
+                {0,0,0,1}});
+        return shearing;
+    }
+
     public Matrix multiply(Matrix other) {
         final Array2DRowRealMatrix multiply = super.multiply(other);
         return new Matrix(multiply.getData());
