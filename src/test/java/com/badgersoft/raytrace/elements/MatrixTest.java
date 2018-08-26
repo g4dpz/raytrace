@@ -330,6 +330,17 @@ public class MatrixTest {
         assertTrue(v2.equals(v3));
     }
 
+    @Test
+    public void reflect() {
+        Point p1 = new Point(-4, 6, 8);
+        Point p2 = new Point(4,6,8);
+        Matrix scale = Matrix.scale(-1, 1, 1);
+        final Tuple tuple = scale.multiply(p1);
+        final Point p3 = new Point(tuple);
+        assertTrue(p2.equals(p3));
+
+    }
+
 
     private void compareEquals(Matrix expected, Matrix test) {
         assertEquals(expected.getData()[0].length, test.getData()[0].length);
