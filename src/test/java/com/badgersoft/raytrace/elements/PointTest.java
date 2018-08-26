@@ -101,7 +101,9 @@ public class PointTest {
         Point p4 = new Point(c.multiply(p3));
         assertTrue(new Point(15, 0, 7).equals(p4));
 
-    }@Test
+    }
+
+    @Test
     public void chainedSequence() {
         Point p1 = new Point(1, 0, 1);
         Matrix a = Matrix.rotationX(Math.PI / 2);
