@@ -27,6 +27,25 @@ public class Matrix extends Array2DRowRealMatrix {
         return rotation;
     }
 
+    public static Matrix rotationY(double angle) {
+        Matrix rotation = new Matrix(new double[][] {
+                {Math.cos(angle),0,Math.sin(angle),0},
+                {0,1,0,0},
+                {-Math.sin(angle),0,Math.cos(angle),0},
+                {0,0,0,1}
+        });
+        return rotation;
+    }
+
+    public static Matrix rotationZ(double angle) {
+        Matrix rotation = new Matrix(new double[][] {
+                {Math.cos(angle),-Math.sin(angle),0,0},
+                {0,Math.sin(angle),Math.cos(angle),0},
+                {0,0,1,0},
+                {0,0,0,1}});
+        return rotation;
+    }
+
     public Matrix multiply(Matrix other) {
         final Array2DRowRealMatrix multiply = super.multiply(other);
         return new Matrix(multiply.getData());
