@@ -33,11 +33,11 @@ public class RayTest {
         Ray r = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
         Sphere s = new Sphere();
 
-        List<Intersection> intersects = r.intersects(s);
+        List<Intersection> intersects = r.intersect(s);
         assertEquals(2, intersects.size());
-        compare(4.0, intersects.get(0).getT());
+        assertTrue(compare(4.0, intersects.get(0).getT()));
         assertEquals(s, intersects.get(0).getScreenObject());
-        compare(6.0, intersects.get(1).getT());
+        assertTrue(compare(6.0, intersects.get(1).getT()));
         assertEquals(s, intersects.get(1).getScreenObject());
     }
 
@@ -46,11 +46,11 @@ public class RayTest {
         Ray r = new Ray(new Point(0, 1, -5), new Vector(0, 0, 1));
         Sphere s = new Sphere();
 
-        List<Intersection> intersects = r.intersects(s);
+        List<Intersection> intersects = r.intersect(s);
         assertEquals(2, intersects.size());
-        compare(5.0, intersects.get(0).getT());
+        assertTrue(compare(5.0, intersects.get(0).getT()));
         assertEquals(s, intersects.get(0).getScreenObject());
-        compare(5.0, intersects.get(1).getT());
+        assertTrue(compare(5.0, intersects.get(1).getT()));
         assertEquals(s, intersects.get(1).getScreenObject());
     }
 
@@ -59,7 +59,7 @@ public class RayTest {
         Ray r = new Ray(new Point(0, 2, -5), new Vector(0, 0, 1));
         Sphere s = new Sphere();
 
-        List<Intersection> intersects = r.intersects(s);
+        List<Intersection> intersects = r.intersect(s);
         assertEquals(0, intersects.size());
     }
 
@@ -68,24 +68,24 @@ public class RayTest {
         Ray r = new Ray(new Point(0,0,0), new Vector(0, 0, 1));
         Sphere s = new Sphere();
 
-        List<Intersection> intersects = r.intersects(s);
+        List<Intersection> intersects = r.intersect(s);
         assertEquals(2, intersects.size());
-        compare(-1.0, intersects.get(0).getT());
+        assertTrue(compare(-1.0, intersects.get(0).getT()));
         assertEquals(s, intersects.get(0).getScreenObject());
-        compare(1.0, intersects.get(1).getT());
+        assertTrue(compare(1.0, intersects.get(1).getT()));
         assertEquals(s, intersects.get(1).getScreenObject());
     }
 
     @Test
-    public void sphareBehindRay() {
+    public void sphereBehindRay() {
         Ray r = new Ray(new Point(0,0,5), new Vector(0, 0, 1));
         Sphere s = new Sphere();
 
-        List<Intersection> intersects = r.intersects(s);
+        List<Intersection> intersects = r.intersect(s);
         assertEquals(2, intersects.size());
-        compare(-6.0, intersects.get(0).getT());
+        assertTrue(compare(-6.0, intersects.get(0).getT()));
         assertEquals(s, intersects.get(0).getScreenObject());
-        compare(4.0, intersects.get(1).getT());
+        assertTrue(compare(-4.0, intersects.get(1).getT()));
         assertEquals(s, intersects.get(1).getScreenObject());
     }
 
@@ -107,7 +107,27 @@ public class RayTest {
         assertTrue(new Vector(0, 3, 0).equals(r2.getDirection()));
     }
 
+    @Test
+    public void intersectingScaledSphereWithRay() {
+        Ray r = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
+        Sphere s = new Sphere();
+        s.setTransform(Matrix.scale(2, 2, 2));
+        final List<Intersection> intersects = r.intersect(s);
+        assertEquals(2, intersects.size());
+        assertTrue(compare(3.0, intersects.get(0).getT()));
+        assertTrue(compare(7.0, intersects.get(1).getT()));
+    }
+
+    @Test
+    public void intersectingTranslatedSphereWithRay() {
+        Ray r = new Ray(new Point(0, 0, -5), new Vector(0, 0, 1));
+        Sphere s = new Sphere();
+        s.setTransform(Matrix.translation(5, 0, 0));
+        final List<Intersection> intersects = r.intersect(s);
+        assertEquals(0, intersects.size());
+    }
+
     private boolean compare(double a, double b) {
-        return Double.compare(a, b) == 0;
+        return Math.abs(a - b) < 0.000001;
     }
 }

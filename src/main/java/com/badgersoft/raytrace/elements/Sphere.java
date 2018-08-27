@@ -6,6 +6,7 @@ public class Sphere extends SceneObject {
 
     private Point origin;
     private double radius;
+    private Matrix transform = new Matrix(new double[][]{{1,0,0,0},{0,1,0,0},{0,0,1,0},{0,0,0,1}});
 
     public Sphere() {
         origin = new Point(0,0,0);
@@ -27,5 +28,13 @@ public class Sphere extends SceneObject {
         Sphere sphere = (Sphere) o;
         return Double.compare(sphere.radius, radius) == 0 &&
                 Objects.equals(origin, sphere.origin);
+    }
+
+    public Matrix getTransform() {
+        return transform;
+    }
+
+    public void setTransform(Matrix transform) {
+        this.transform = transform;
     }
 }

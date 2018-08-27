@@ -34,10 +34,11 @@ public class Ray {
         return origin;
     }
 
-    public List<Intersection> intersects(Sphere sphere) {
-        Vector sphereToRay = getOrigin().subtract(sphere.getOrigin());
-        final double a = dot(getDirection(), getDirection());
-        final double b = 2 * dot(getDirection(), sphereToRay);
+    public List<Intersection> intersect(Sphere sphere) {
+        Ray r2 = transform(Matrix.invert(sphere.getTransform()));
+        Vector sphereToRay = r2.getOrigin().subtract(sphere.getOrigin());
+        final double a = dot(r2.getDirection(), r2.getDirection());
+        final double b = 2 * dot(r2.getDirection(), sphereToRay);
         final double c = dot(sphereToRay, sphereToRay) - 1.0;
         double discriminant = (b * b) - (4.0 * a * c);
 
