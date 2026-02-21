@@ -7,12 +7,6 @@ import static com.badgersoft.raytrace.elements.Vector.dot;
 
 public class Ray {
 
-    private List<Intersection> getIntersections() {
-        return intersections;
-    }
-
-    private List<Intersection> intersections = new ArrayList<>();
-
     private Point origin;
     private Vector direction;
 
@@ -30,11 +24,11 @@ public class Ray {
     }
 
     public Point position(double time) {
-        origin = origin.add(direction.multiply(time));
-        return origin;
+        return origin.add(direction.multiply(time));
     }
 
     public List<Intersection> intersect(Sphere sphere) {
+        List<Intersection> result = new ArrayList<>();
         Ray r2 = transform(Matrix.invert(sphere.getTransform()));
         Vector sphereToRay = r2.getOrigin().subtract(sphere.getOrigin());
         final double a = dot(r2.getDirection(), r2.getDirection());
@@ -43,7 +37,7 @@ public class Ray {
         double discriminant = (b * b) - (4.0 * a * c);
 
         if (discriminant < 0) {
-            return getIntersections();
+            return result;
         }
 
         double t1 = (-b - Math.sqrt(discriminant)) / (2 * a);
@@ -54,12 +48,10 @@ public class Ray {
             t2 = t3;
         }
 
-        getIntersections().add(new Intersection(t1, sphere));
-        getIntersections().add(new Intersection(t2, sphere));
+        result.add(new Intersection(t1, sphere));
+        result.add(new Intersection(t2, sphere));
 
-        return getIntersections();
-
-
+        return result;
     }
 
     public Ray transform(Matrix m) {

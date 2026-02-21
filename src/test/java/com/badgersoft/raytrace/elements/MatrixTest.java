@@ -4,6 +4,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class MatrixTest {
@@ -352,5 +353,144 @@ public class MatrixTest {
                 assertTrue(Math.abs(expected.getData()[i][j] - test.getData()[i][j]) < 0.000001);
             }
         }
+    }
+
+    private boolean compare(double a, double b) {
+        return Math.abs(a - b) < 0.000001;
+    }
+
+    @Test
+    public void testIdentityMatrixMultiplication() {
+        Matrix m = new Matrix(new double[][]{
+            {1, 2, 3, 4},
+            {5, 6, 7, 8},
+            {9, 10, 11, 12},
+            {13, 14, 15, 16}
+        });
+        
+        Matrix identity = new Matrix(new double[][]{
+            {1, 0, 0, 0},
+            {0, 1, 0, 0},
+            {0, 0, 1, 0},
+            {0, 0, 0, 1}
+        });
+        Matrix result = m.multiply(identity);
+        
+        assertTrue(m.equals(result));
+    }
+
+    @Test
+    public void testZeroMatrixMultiplication() {
+        Matrix m = new Matrix(new double[][]{
+            {1, 2, 3, 4},
+            {5, 6, 7, 8},
+            {9, 10, 11, 12},
+            {13, 14, 15, 16}
+        });
+        
+        Matrix zero = new Matrix(new double[][]{
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0},
+            {0, 0, 0, 0}
+        });
+        
+        Matrix result = m.multiply(zero);
+        
+        assertTrue(zero.equals(result));
+    }
+
+    @Test
+    public void testTranslationWithZeroVector() {
+        Matrix translation = Matrix.translation(0, 0, 0);
+        Point p = new Point(1, 2, 3);
+        
+        Tuple result = translation.multiply(p);
+        
+        assertTrue(compare(result.getX(), 1.0));
+        assertTrue(compare(result.getY(), 2.0));
+        assertTrue(compare(result.getZ(), 3.0));
+    }
+
+    @Test
+    public void testScalingByZero() {
+        Matrix scaling = Matrix.scale(0, 0, 0);
+        Point p = new Point(1, 2, 3);
+        
+        Tuple result = scaling.multiply(p);
+        
+        assertTrue(compare(result.getX(), 0.0));
+        assertTrue(compare(result.getY(), 0.0));
+        assertTrue(compare(result.getZ(), 0.0));
+    }
+
+    @Test
+    public void testScalingByOne() {
+        Matrix scaling = Matrix.scale(1, 1, 1);
+        Point p = new Point(5, 6, 7);
+        
+        Tuple result = scaling.multiply(p);
+        
+        assertTrue(compare(result.getX(), 5.0));
+        assertTrue(compare(result.getY(), 6.0));
+        assertTrue(compare(result.getZ(), 7.0));
+    }
+
+    @Test
+    public void testRotationByZero() {
+        Matrix rotationX = Matrix.rotationX(0);
+        Matrix rotationY = Matrix.rotationY(0);
+        
+        Point p = new Point(1, 2, 3);
+        
+        Tuple resultX = rotationX.multiply(p);
+        Tuple resultY = rotationY.multiply(p);
+        
+        assertTrue(compare(resultX.getX(), 1.0));
+        assertTrue(compare(resultX.getY(), 2.0));
+        assertTrue(compare(resultX.getZ(), 3.0));
+        
+        assertTrue(compare(resultY.getX(), 1.0));
+        assertTrue(compare(resultY.getY(), 2.0));
+        assertTrue(compare(resultY.getZ(), 3.0));
+    }
+
+    @Test
+    public void testRotationByFullCircle() {
+        Matrix rotation = Matrix.rotationY(2 * Math.PI);
+        Point p = new Point(1, 0, 0);
+        
+        Tuple result = rotation.multiply(p);
+        
+        assertTrue(compare(result.getX(), 1.0));
+        assertTrue(compare(result.getY(), 0.0));
+        assertTrue(compare(result.getZ(), 0.0));
+    }
+
+    @Test
+    public void testChainedTransformations() {
+        Point p = new Point(1, 0, 0);
+        Matrix rotation = Matrix.rotationY(Math.PI / 2);
+        Matrix scaling = Matrix.scale(2, 2, 2);
+        Matrix translation = Matrix.translation(5, 5, 5);
+        
+        // Apply transformations in sequence
+        Tuple result = translation.multiply(scaling.multiply(rotation.multiply(p)));
+        
+        // Verify transformation was applied
+        assertNotNull(result);
+        assertEquals(5.0, result.getY(), 0.1);
+    }
+
+    @Test
+    public void testShearingWithZeroValues() {
+        Matrix shearing = Matrix.shearing(0, 0, 0, 0, 0, 0);
+        Point p = new Point(2, 3, 4);
+        
+        Tuple result = shearing.multiply(p);
+        
+        assertTrue(compare(result.getX(), 2.0));
+        assertTrue(compare(result.getY(), 3.0));
+        assertTrue(compare(result.getZ(), 4.0));
     }
 }

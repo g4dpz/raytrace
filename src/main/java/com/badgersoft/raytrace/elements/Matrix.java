@@ -17,7 +17,7 @@ public class Matrix extends Array2DRowRealMatrix {
         return transform;
     }
 
-    public static Matrix scale(int x, int y, int z) {
+    public static Matrix scale(double x, double y, double z) {
         Matrix scale = new Matrix(new double[][] {{x,0,0,0},{0,y,0,0},{0,0,z,0},{0,0,0,1}});
         return scale;
     }
@@ -157,5 +157,21 @@ public class Matrix extends Array2DRowRealMatrix {
             }
         }
         return new Matrix(cofactorMatrix);
+    }
+
+    public static Matrix viewTransform(Point from, Point to, Vector up) {
+        Vector forward = to.subtract(from).normalise();
+        Vector upn = up.normalise();
+        Vector left = Vector.cross(forward, upn);
+        Vector trueUp = Vector.cross(left, forward);
+
+        Matrix orientation = new Matrix(new double[][] {
+            {left.getX(), left.getY(), left.getZ(), 0},
+            {trueUp.getX(), trueUp.getY(), trueUp.getZ(), 0},
+            {-forward.getX(), -forward.getY(), -forward.getZ(), 0},
+            {0, 0, 0, 1}
+        });
+
+        return orientation.multiply(translation(-from.getX(), -from.getY(), -from.getZ()));
     }
 }

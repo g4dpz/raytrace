@@ -5,6 +5,7 @@ import org.junit.Test;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class RayTest {
@@ -129,5 +130,84 @@ public class RayTest {
 
     private boolean compare(double a, double b) {
         return Math.abs(a - b) < 0.000001;
+    }
+
+    @Test
+    public void testRayMissingSphere() {
+        Ray ray = new Ray(new Point(0, 2, -5), new Vector(0, 0, 1));
+        Sphere sphere = new Sphere();
+        
+        List<Intersection> intersections = ray.intersect(sphere);
+        
+        assertEquals(0, intersections.size());
+    }
+
+    @Test
+    public void testRayOriginatingInsideSphere() {
+        Ray ray = new Ray(new Point(0, 0, 0), new Vector(0, 0, 1));
+        Sphere sphere = new Sphere();
+        
+        List<Intersection> intersections = ray.intersect(sphere);
+        
+        assertEquals(2, intersections.size());
+        assertTrue(compare(intersections.get(0).getT(), -1.0));
+        assertTrue(compare(intersections.get(1).getT(), 1.0));
+    }
+
+    @Test
+    public void testRayBehindSphere() {
+        Ray ray = new Ray(new Point(0, 0, 5), new Vector(0, 0, 1));
+        Sphere sphere = new Sphere();
+        
+        List<Intersection> intersections = ray.intersect(sphere);
+        
+        assertEquals(2, intersections.size());
+        assertTrue(intersections.get(0).getT() < 0);
+        assertTrue(intersections.get(1).getT() < 0);
+    }
+
+    @Test
+    public void testRayTangentToSphere() {
+        Ray ray = new Ray(new Point(0, 1, -5), new Vector(0, 0, 1));
+        Sphere sphere = new Sphere();
+        
+        List<Intersection> intersections = ray.intersect(sphere);
+        
+        assertEquals(2, intersections.size());
+        assertTrue(compare(intersections.get(0).getT(), intersections.get(1).getT()));
+    }
+
+    @Test
+    public void testRayWithZeroDirection() {
+        // This is an edge case - a ray with no direction
+        Ray ray = new Ray(new Point(0, 0, 0), new Vector(0, 0, 0));
+        Sphere sphere = new Sphere();
+        
+        List<Intersection> intersections = ray.intersect(sphere);
+        
+        // Should return no intersections or handle gracefully
+        assertNotNull(intersections);
+    }
+
+    @Test
+    public void testPositionAtZeroDistance() {
+        Ray ray = new Ray(new Point(2, 3, 4), new Vector(1, 0, 0));
+        
+        Tuple position = ray.position(0);
+        
+        assertTrue(compare(position.getX(), 2.0));
+        assertTrue(compare(position.getY(), 3.0));
+        assertTrue(compare(position.getZ(), 4.0));
+    }
+
+    @Test
+    public void testPositionAtNegativeDistance() {
+        Ray ray = new Ray(new Point(2, 3, 4), new Vector(1, 0, 0));
+        
+        Tuple position = ray.position(-1);
+        
+        assertTrue(compare(position.getX(), 1.0));
+        assertTrue(compare(position.getY(), 3.0));
+        assertTrue(compare(position.getZ(), 4.0));
     }
 }

@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.badgersoft.raytrace.elements.SphereTest
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 s - in com.badgersoft.raytrace.elements.SphereTest

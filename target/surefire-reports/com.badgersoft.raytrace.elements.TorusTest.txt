@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.badgersoft.raytrace.elements.TorusTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 s - in com.badgersoft.raytrace.elements.TorusTest

@@ -28,37 +28,33 @@ public class Colour {
     }
 
     public Colour add(Colour other) {
-
         return new Colour(
-                red += other.red,
-                green += other.green,
-                blue += other.blue);
+                red + other.red,
+                green + other.green,
+                blue + other.blue);
     }
 
     public Colour subtract(Colour other) {
-
         return new Colour(
-                red -= other.red,
-                green -= other.green,
-                blue-= other.blue
+                red - other.red,
+                green - other.green,
+                blue - other.blue
         );
     }
 
     public Colour multiply(double multiplicand) {
-
         return new Colour(
-                red *= multiplicand,
-                green *= multiplicand,
-                blue *= multiplicand
+                red * multiplicand,
+                green * multiplicand,
+                blue * multiplicand
         );
     }
 
     public Colour multiply(Colour other) {
-
         return new Colour(
-                red *= other.red,
-                green *= other.green,
-                blue *= other.blue
+                red * other.red,
+                green * other.green,
+                blue * other.blue
         );
     }
 
@@ -67,5 +63,23 @@ public class Colour {
         double green = c1.green *= c2.green;
         double blue = c1.blue *= c2.blue;
         return new Colour(red, green, blue);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Colour)) return false;
+        Colour other = (Colour) obj;
+        return Math.abs(red - other.red) < 0.0001 &&
+               Math.abs(green - other.green) < 0.0001 &&
+               Math.abs(blue - other.blue) < 0.0001;
+    }
+
+    @Override
+    public int hashCode() {
+        long redBits = Double.doubleToLongBits(red);
+        long greenBits = Double.doubleToLongBits(green);
+        long blueBits = Double.doubleToLongBits(blue);
+        return (int)(redBits ^ greenBits ^ blueBits);
     }
 }

@@ -63,40 +63,40 @@ public class Tuple implements Serializable {
     public Tuple add(Tuple other) {
 
         return new Tuple(
-                x += other.x,
-                y += other.y,
-                z += other.z,
-                w += other.w
+                x + other.x,
+                y + other.y,
+                z + other.z,
+                w + other.w
         );
     }
 
     public Tuple subtract(Tuple other) {
 
         return new Tuple(
-                x -= other.x,
-                y -= other.y,
-                z -= other.z,
-                w -= other.w
+                x - other.x,
+                y - other.y,
+                z - other.z,
+                w - other.w
         );
     }
 
     public Tuple negate() {
 
         return new Tuple(
-                x  *= MINUS_1,
-                y  *= MINUS_1,
-                z  *= MINUS_1,
-                w  *= MINUS_1
+                x * MINUS_1,
+                y * MINUS_1,
+                z * MINUS_1,
+                w * MINUS_1
         );
     }
 
     public Tuple multiply(double multiplicand) {
 
         final Tuple tuple = new Tuple(
-                x  *= multiplicand,
-                y  *= multiplicand,
-                z  *= multiplicand,
-                w  *= multiplicand
+                x * multiplicand,
+                y * multiplicand,
+                z * multiplicand,
+                w * multiplicand
         );
         return tuple;
     }
@@ -104,10 +104,10 @@ public class Tuple implements Serializable {
     public Tuple divide(double divisor) {
 
         return new Tuple(
-                x /= divisor,
-                y /= divisor,
-                z /= divisor,
-                w /= divisor
+                x / divisor,
+                y / divisor,
+                z / divisor,
+                w / divisor
         );
     }
 

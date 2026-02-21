@@ -90,5 +90,21 @@ public class Canvas {
         return Integer.toString(scaledColour.intValue());
     }
 
+    public long getWidth() {
+        return width;
+    }
 
+    public long getHeight() {
+        return height;
+    }
+
+    public void writeToPPM(String filename) {
+        try {
+            java.io.FileWriter writer = new java.io.FileWriter(filename);
+            writer.write(toPpm());
+            writer.close();
+        } catch (java.io.IOException e) {
+            System.err.println("Error writing to file: " + e.getMessage());
+        }
+    }
 }

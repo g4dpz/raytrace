@@ -58,4 +58,13 @@ public class Vector extends Tuple {
             d5 - d6
         );
     }
+
+    public Vector negate() {
+        return new Vector(-getX(), -getY(), -getZ());
+    }
+
+    public Vector reflect(Vector normal) {
+        double dotProduct = dot(this, normal);
+        return this.subtract(normal.multiply(2 * dotProduct));
+    }
 }
